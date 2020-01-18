@@ -87,6 +87,8 @@
         <li>
           <a class="nav home" href="/hblog/categories/"
             
+              rel="nofollow"
+            
             
             id="hblogcategories">
             <i class='fas fa-code-branch fa-fw'></i>&nbsp;分类
@@ -121,9 +123,9 @@
 
       
     </cover>
-    <header class="l_header pure">
+    <header class="l_header material">
   <div id="loading-bar-wrapper">
-    <div id="loading-bar" class="pure"></div>
+    <div id="loading-bar" class="material"></div>
   </div>
 
 	<div class='wrapper'>
@@ -346,6 +348,21 @@
           
             
   
+    <div class="new-meta-item wordcount">
+      <a class='notlink'>
+        <i class="fas fa-keyboard" aria-hidden="true"></i>
+        <p>字数统计:</p>
+        <p>3.3k字</p>
+      </a>
+    </div>
+    <div class="new-meta-item readtime">
+      <a class='notlink'>
+        <i class="fas fa-hourglass-half" aria-hidden="true"></i>
+        <p>阅读时长≈</p>
+        <p>13分</p>
+      </a>
+    </div>
+  
 
           
         
@@ -364,15 +381,20 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>文本input为一个一定长度的字符串，文本pattern为一个长度小于input的字符串。字符串里面的所有字符都是26个小写字母，求pattern在input中第一次出现的问题，如果没有出现过返回-1。</p>
+        <p>字符串匹配是一个各大学教科书上经常出现的经典问题。</p>
+<a id="more"></a>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>文本input为一个一定长度的字符串，文本pattern为一个长度小于input的字符串。字符串里面的所有字符都是26个小写字母，求pattern在input中第一次出现的问题，如果没有出现过返回-1。</p>
 <h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><h3 id="暴力法"><a href="#暴力法" class="headerlink" title="暴力法"></a>暴力法</h3><p>最容易想到的就是直接从左往右遍历所有字符，没什么好说的，实现代码如下：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BF算法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">matchBF</span><span class="params">(bInput []<span class="keyword">byte</span>, bPattern []<span class="keyword">byte</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    lenP := <span class="built_in">len</span>(bPattern)</span><br><span class="line">    lenI := <span class="built_in">len</span>(bInput)</span><br><span class="line">    <span class="keyword">for</span> i:= <span class="number">0</span>; i &lt;= lenI - lenP; i++ &#123;</span><br><span class="line">        match := <span class="literal">true</span></span><br><span class="line">        <span class="keyword">for</span> j := <span class="number">0</span>; j &lt; lenP; j++ &#123;</span><br><span class="line">            <span class="keyword">if</span> bInput[i + j] != bPattern[j] &#123;</span><br><span class="line">                match = <span class="literal">false</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> match &#123;</span><br><span class="line">            <span class="keyword">return</span> i</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="KR算法"><a href="#KR算法" class="headerlink" title="KR算法"></a>KR算法</h3><p>暴击法虽然简单，但主串遍历一遍n次，每一次需要遍历一遍匹配串判断当前位置是否匹配，最差需要n*m次计算才能遍历完，计算量太大。KR算法在暴力法的基础上，对每一个位置上的遍历判断改为计算匹配串与相应子串的hash值，如果hash值相等，再从左到右遍历。假设hash值的计算为 a=1，b=2，c=3 对字符串的值求和得到hash，那么计算如图：</p>
 <p><img src="https://s2.ax1x.com/2020/01/15/lXA76K.png" alt="kmp-kr"></p>
 <p>显然该位置主串的子串与匹配串不相同，但hash相同不一定绝对匹配，比如abc与acb 计算的hash相等，但字符串不匹配，所以hash相等时还需要逐字符判断一遍。另外，hash算法的冲突率对整个算法的影响很大，冲突率越高，hash相等时字符串不匹配的几率越高，计算量越大，一个简单的hash算法如下：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">calHashCode</span><span class="params">(input []<span class="keyword">byte</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    result := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> _, i := <span class="keyword">range</span> input &#123;</span><br><span class="line">        result += <span class="keyword">int</span>(i)</span><br><span class="line">        result *= defaultPower</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>这样就ok了吗？并不，因为一般hash的计算同样需要遍历一遍字符串，虽然匹配串是固定的不需要重新计算，但是每个位置对于的子串都不同，如果每个位置都要遍历一遍子串来计算hash，那计算量和暴力法也没什么差别甚至更高。所以在这里需要利用部分字符重叠这个特性，在上图中，第0个位置子串为abc 第1个位置子串为bcd 其中bc是重叠的，计算hash的时候只需要把a去掉，加上d就可以了。具体的做法如以下代码：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> defaultPower = <span class="number">26</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">matchKR</span><span class="params">(bInput []<span class="keyword">byte</span>, bPattern []<span class="keyword">byte</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    lenP := <span class="built_in">len</span>(bPattern)</span><br><span class="line">    lenI := <span class="built_in">len</span>(bInput)</span><br><span class="line">    hashCodeP := calHashCode(bPattern)</span><br><span class="line">    hashCodeI := calHashCode(bInput[<span class="number">0</span>:lenP])</span><br><span class="line">    <span class="comment">// 计算hashcode时每次减去的基数</span></span><br><span class="line">    subPower := calPower(defaultPower, lenP + <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> i:= <span class="number">0</span>; i &lt;= lenI - lenP; i++ &#123;</span><br><span class="line">        <span class="keyword">if</span> hashCodeI == hashCodeP &#123;</span><br><span class="line">            <span class="comment">// 粗略匹配</span></span><br><span class="line">            match := <span class="literal">true</span></span><br><span class="line">            <span class="keyword">for</span> j := <span class="number">0</span>; j &lt; lenP ; j++ &#123;</span><br><span class="line">                <span class="keyword">if</span> bInput[i + j] != bPattern[j] &#123;</span><br><span class="line">                    match = <span class="literal">false</span></span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 真的匹配</span></span><br><span class="line">            <span class="keyword">if</span> match &#123;</span><br><span class="line">                <span class="keyword">return</span> i</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> i + lenP &gt;= lenI &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 不匹配时 更新子串的hashCode</span></span><br><span class="line">        hashCodeI += <span class="keyword">int</span>(bInput[i +lenP])</span><br><span class="line">        hashCodeI *= defaultPower</span><br><span class="line">        hashCodeI -= subPower * <span class="keyword">int</span>(bInput[i])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">calPower</span><span class="params">(a <span class="keyword">int</span>, b <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    result := <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i&lt; b; i++ &#123;</span><br><span class="line">        result *= a</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="BM-Boyer-Moore-算法"><a href="#BM-Boyer-Moore-算法" class="headerlink" title="BM(Boyer-Moore)算法"></a>BM(Boyer-Moore)算法</h3><p>上述两个算法每次匹配串都只往右移动一个位置，这样显然太慢了些，很多时候是可以一次移动多个位置的。</p>
 <p>BM算法就是这样一个算法，其思想是如果子串中有模式串中不存在的字符，那肯定不匹配，可以往后多移动几步。为了更快发现不存在的字符，并且尽量往后多移动几步，BM算法选择从后往前逐字判断。</p>
 <p><img src="https://s2.ax1x.com/2020/01/15/lXZ1Y9.png" alt="kmp-bm1"></p>
@@ -381,6 +403,7 @@
 <p><img src="https://s2.ax1x.com/2020/01/15/lX3S9U.png" alt="cm-badChar"><br><img src="https://s2.ax1x.com/2020/01/15/lX1R0I.png" alt="cm-badChar2"></p>
 <p>因为匹配串是固定的，每一个字符在匹配串的最后一个位置也是固定的，所以可以提前预处理匹配串，找出匹配串中每一个字符在串中的最后一个位置，组成map，当寻找坏字符在匹配串的位置时只需要去map中寻找，不再需要重复遍历匹配串。代码如下：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//坏字符预处理</span></span><br><span class="line"><span class="comment">//O(n)</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">generalBadCharMap</span><span class="params">(bPattern []<span class="keyword">byte</span>, bInput []<span class="keyword">byte</span>)</span> <span class="title">map</span>[<span class="title">byte</span>]<span class="title">int</span></span> &#123;</span><br><span class="line">    lenP := <span class="built_in">len</span>(bPattern)</span><br><span class="line">    bCharArray := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">byte</span>]<span class="keyword">int</span>)</span><br><span class="line">    <span class="comment">// 这里将主串中所有出现过的字符对应的value提前置为-1，代表坏字符移动到-1的位置</span></span><br><span class="line">    <span class="keyword">for</span> _, i := <span class="keyword">range</span> bInput &#123;</span><br><span class="line">        bCharArray[i] = <span class="number">-1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// key字符 在pattern里的最后一个位置</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; lenP; i++&#123;</span><br><span class="line">        bCharArray[bPattern[i]] = i</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> bCharArray</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h5 id="好后缀规则"><a href="#好后缀规则" class="headerlink" title="好后缀规则"></a>好后缀规则</h5><p>好后缀是指坏字符后面已经能够匹配的字符后缀，如上图中的好后缀为 da 和 a。好后缀规则是指，当子串存在好后缀时，匹配串向右移动使长度最长的好后缀与匹配串中的相同子串对应，如果不存在相同的子串，则在其他好后缀中寻找与匹配串中相同前缀匹配的最长者相对应，如果依然不存在，将好后缀移动到匹配串的最前面。所以好后缀规则存在三种情况：</p>
 <ul>
 <li>最长好后缀在匹配串中存在相同子串</li>
@@ -396,13 +419,16 @@
 <p><img src="https://s2.ax1x.com/2020/01/15/lXGJ1S.png" alt="cm-goodSuffix3"></p>
 <p>好后缀同样可以提前预处理，一个比较暴力的处理方法为：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//好后缀预处理</span></span><br><span class="line"><span class="comment">//返回 map key深度好后缀最后个子串的位置value</span></span><br><span class="line"><span class="comment">//暴力法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">generalGoodSuffix</span><span class="params">(bPattern []<span class="keyword">byte</span>)</span> <span class="title">map</span>[<span class="title">int</span>]<span class="title">int</span></span> &#123;</span><br><span class="line">    lenP := <span class="built_in">len</span>(bPattern)</span><br><span class="line">    <span class="comment">// suffix中保存 key深度的好后缀在匹配串中最后一个相同子串的位置，如果不存在 value为-1</span></span><br><span class="line">    suffix := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span>)</span><br><span class="line">    <span class="comment">// prefix中保存 key深度的好后缀是否存在相同的前缀，如果存在value为1 否则为-1</span></span><br><span class="line">    prefix := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span>)</span><br><span class="line">    <span class="comment">// 初始化所有深度 value值</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">1</span>; i &lt; lenP ; i++ &#123;</span><br><span class="line">        suffix[i] = <span class="number">-1</span></span><br><span class="line">        prefix[i] = <span class="number">-1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// i 从0往右遍历的深度</span></span><br><span class="line">    <span class="comment">// 找到所有深度为i的好后缀再最后一次出现的位置</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; lenP - <span class="number">1</span>; i++ &#123;</span><br><span class="line">        j := i <span class="comment">// 深度为i的串最右边开始往左判断</span></span><br><span class="line">        <span class="keyword">for</span> j &gt;= <span class="number">0</span> &amp;&amp; bPattern[j] == bPattern[lenP - <span class="number">1</span> - i + j] &#123;</span><br><span class="line">            j--</span><br><span class="line">            suffix[i - j] = j + <span class="number">1</span> <span class="comment">// 最后一个深度为i - j 的串的位置</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> j == <span class="number">0</span> &#123;</span><br><span class="line">            prefix[i] = <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 处理前缀 当深度为i的好后缀 在模式串前没有出现过第二次时 找到这个好后缀的最长前缀子串</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">1</span>; i &lt; lenP; i++ &#123;</span><br><span class="line">        <span class="comment">// 当前深度没有匹配的串</span></span><br><span class="line">        <span class="keyword">if</span> suffix[i] == <span class="number">-1</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> j := i - <span class="number">1</span>; j &gt; <span class="number">0</span>; j-- &#123;</span><br><span class="line">                <span class="comment">// 找到最长前缀子串</span></span><br><span class="line">                <span class="keyword">if</span> prefix[j] == <span class="number">1</span> &#123;</span><br><span class="line">                    <span class="comment">// 将最长子串移动到最前面 相当于 当前深度串移动到最前面往前i - j个位置 当i=j时理论应该直接移动到0位置</span></span><br><span class="line">                    suffix[i] = j - i</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> suffix</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h5 id="主规则"><a href="#主规则" class="headerlink" title="主规则"></a>主规则</h5><p>得到处理后的好后缀与坏字符map后，对于每一个不匹配的位置，都可以通过好后缀规则与坏字符规则计算一个移动步数，取两者较大者对匹配串进行移动，具体实现如下：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// BM算法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">matchBM</span><span class="params">(bInput []<span class="keyword">byte</span>, bPattern []<span class="keyword">byte</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    i := <span class="number">0</span> <span class="comment">// 输入串与匹配串偏移量</span></span><br><span class="line">    <span class="keyword">var</span> j <span class="keyword">int</span> <span class="comment">// 输入串与匹配串匹配的第一个字符</span></span><br><span class="line">    goodSuffix := generalGoodSuffix(bPattern)</span><br><span class="line">    badChar := generalBadCharMap(bPattern, bInput)</span><br><span class="line">    lenI := <span class="built_in">len</span>(bInput)</span><br><span class="line">    lenP := <span class="built_in">len</span>(bPattern)</span><br><span class="line">    <span class="keyword">for</span> i &lt;= lenI -lenP &#123;</span><br><span class="line">        <span class="keyword">for</span> j = lenP - <span class="number">1</span>; j &gt;= <span class="number">0</span>; j-- &#123;</span><br><span class="line">            <span class="comment">// 第一个坏字符</span></span><br><span class="line">            <span class="keyword">if</span> bInput[i + j] != bPattern[j] &#123;</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 成功</span></span><br><span class="line">        <span class="keyword">if</span> j &lt; <span class="number">0</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> i</span><br><span class="line">        &#125;</span><br><span class="line">        badMove := j - badChar[bInput[i + j]]</span><br><span class="line">        goodMove := <span class="number">0</span></span><br><span class="line">        <span class="comment">// 不是最后一个字符 有好后缀</span></span><br><span class="line">        <span class="keyword">if</span> j &lt; lenP <span class="number">-1</span> &#123;</span><br><span class="line">            goodMove = j + <span class="number">1</span> - goodSuffix[lenP - j]</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> badMove &gt; goodMove&#123;</span><br><span class="line">            i += badMove</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            i += goodMove</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="KMP算法"><a href="#KMP算法" class="headerlink" title="KMP算法"></a>KMP算法</h3><h4 id="next数组"><a href="#next数组" class="headerlink" title="next数组"></a>next数组</h4><p>KMP算法同样尽量使匹配串更快地往右移动，不过利用的是匹配串中的另一个信息。这个信息为：对于每匹配串 t 的每个元素 t j，都存在一个实数 k ，使得匹配串 t 开头的 k 个字符（t 0 t 1…t k-1）依次与 t j 前面的 k（t j-k t j-k+1…t j-1，这里第一个字符 t j-k 最多从 t 1 开始，所以 k &lt; j）个字符相同。如果这样的 k 有多个，则取最大的一个。匹配串中每一个位置j都有这样一个k，通过next数组表示，即 next[j] = max{k}<br>这个信息是什么意思呢？可以通过下图来理解：</p>
 <p><img src="https://s2.ax1x.com/2020/01/15/lXtDht.png" alt="cm-kmp"></p>
 <p>对于j = 5 存在这样一个k = 2, 使 p[j]前面的k个字符，与匹配串开头的k个字符相同，则next[5] = 2。</p>
 <p>因为这个信息是每个匹配串都存在的信息，我们可以拿匹配串进行预处理，得到长度与匹配串长度相同的next数组，代码如下：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 预处理next</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">generalNextMap</span><span class="params">(bPattern []<span class="keyword">byte</span>)</span> <span class="title">map</span>[<span class="title">int</span>]<span class="title">int</span></span> &#123;</span><br><span class="line">    next := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">int</span>)</span><br><span class="line">    j, k := <span class="number">0</span>, <span class="number">-1</span></span><br><span class="line">    next[j] = k</span><br><span class="line">    lenP := <span class="built_in">len</span>(bPattern)</span><br><span class="line">    <span class="keyword">for</span> j &lt; lenP - <span class="number">1</span> &#123;</span><br><span class="line">        <span class="comment">// k == -1 时 第一个字符都不匹配，往后移</span></span><br><span class="line">        <span class="comment">// bk == bj 时 匹配 继续往后寻找</span></span><br><span class="line">        <span class="keyword">if</span> k == <span class="number">-1</span> || bPattern[k] == bPattern[j] &#123;</span><br><span class="line">            k++</span><br><span class="line">            j++</span><br><span class="line">            <span class="comment">// 优化后的代码，原算法不判断==，直接赋值k</span></span><br><span class="line">            <span class="keyword">if</span> bPattern[k] == bPattern[j] &#123;</span><br><span class="line">                next[j] = next[k]</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                next[j] = k</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// bk != bj 时 因为k前面的n个字符 与j前面的n个字符匹配 那么将k 替换为next[k]以后 则j前面next[k]个字符同样与next[k]前面next[k]个字符匹配 达到等价回退的目的</span></span><br><span class="line">            k = next[k]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> next</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>预处理next的遍历过程分三种情况：</p>
 <ol>
 <li><p>k == -1，p[j] 前面0个字符与前缀相同，这时将k与j都加一，继续往后一位判断。</p>
@@ -417,6 +443,7 @@
 <p><img src="https://s2.ax1x.com/2020/01/15/lXdzZD.png" alt="cm-kmpMove"></p>
 <p>具体代码如下:</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// KMP 算法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">matchKMP</span><span class="params">(bInput []<span class="keyword">byte</span>, bPattern []<span class="keyword">byte</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">    next := generalNextMap(bPattern)</span><br><span class="line">    i, j := <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    lenI := <span class="built_in">len</span>(bInput)</span><br><span class="line">    lenP := <span class="built_in">len</span>(bPattern)</span><br><span class="line">    <span class="keyword">for</span> i &lt; lenI &amp;&amp; j &lt; lenP &#123;</span><br><span class="line">        <span class="keyword">if</span> j == <span class="number">-1</span> || bInput[i] == bPattern[j] &#123;</span><br><span class="line">            i++</span><br><span class="line">            j++</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            j = next[j]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 遍历完成 如果j先遍历完则存在匹配</span></span><br><span class="line">    <span class="keyword">if</span> j &gt;= lenP &#123;</span><br><span class="line">        <span class="keyword">return</span> i - lenP</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="Sunday算法"><a href="#Sunday算法" class="headerlink" title="Sunday算法"></a>Sunday算法</h3><p>Sunday算法与BM算法的坏字符规则相似，BM算法移动到坏字符与匹配串中相同的字符相对应，而Sunday算法找到的不是坏字符，而是子串最后一个字符的下一个字符，该字符的移动规则与BM算法坏字符的移动规则一致， 如下图。</p>
 <p><img src="https://s2.ax1x.com/2020/01/15/lX0oC9.png" alt="cm-sunday"></p>
 <p>具体代码如下：</p>
@@ -433,10 +460,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-01-16T11:28:47+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-01-17T23:59:07+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>updated at Jan 16, 2020</p>
+    <p>updated at Jan 17, 2020</p>
   </a>
 </div>
 
@@ -455,7 +482,7 @@
       
         <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sictiy.cn/hblog/2020/01/15/charMatch/&title=字符串匹配 | SictiyLeon&summary="
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sictiy.cn/hblog/2020/01/15/charMatch/&title=字符串匹配 | SictiyLeon&summary=字符串匹配是一个各大学教科书上经常出现的经典问题。"
           
           >
           
@@ -467,7 +494,7 @@
       
         <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.sictiy.cn/hblog/2020/01/15/charMatch/&title=字符串匹配 | SictiyLeon&summary="
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.sictiy.cn/hblog/2020/01/15/charMatch/&title=字符串匹配 | SictiyLeon&summary=字符串匹配是一个各大学教科书上经常出现的经典问题。"
           
           >
           
@@ -479,7 +506,7 @@
       
         <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=https://www.sictiy.cn/hblog/2020/01/15/charMatch/&title=字符串匹配 | SictiyLeon&summary="
+          href="http://service.weibo.com/share/share.php?url=https://www.sictiy.cn/hblog/2020/01/15/charMatch/&title=字符串匹配 | SictiyLeon&summary=字符串匹配是一个各大学教科书上经常出现的经典问题。"
           
           >
           
@@ -574,7 +601,7 @@
           
             
               <section class='widget author'>
-  <div class='content pure'>
+  <div class='content material'>
     
       <div class='avatar'>
         <img class='avatar' src='https://s2.ax1x.com/2020/01/17/lxqAEV.jpg'/>
@@ -647,12 +674,12 @@
             
               <section class='widget grid'>
   
-<header class='pure'>
+<header class='material'>
   <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
   
 </header>
 
-  <div class='content pure'>
+  <div class='content material'>
     <ul class="grid navgation">
       
         <li><a class="flat-box" title="/hblog/" href="/hblog/"
@@ -719,14 +746,14 @@
               
   <section class='widget toc-wrapper'>
     
-<header class='pure'>
+<header class='material'>
   <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
   
     <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
   
 </header>
 
-    <div class='content pure'>
+    <div class='content material'>
       <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题描述"><span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解法"><span class="toc-text">解法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#暴力法"><span class="toc-text">暴力法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KR算法"><span class="toc-text">KR算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BM-Boyer-Moore-算法"><span class="toc-text">BM(Boyer-Moore)算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#算法细则"><span class="toc-text">算法细则</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#坏字符规则"><span class="toc-text">坏字符规则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#好后缀规则"><span class="toc-text">好后缀规则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#主规则"><span class="toc-text">主规则</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KMP算法"><span class="toc-text">KMP算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#next数组"><span class="toc-text">next数组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#主逻辑"><span class="toc-text">主逻辑</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sunday算法"><span class="toc-text">Sunday算法</span></a></li></ol></li></ol>
     </div>
   </section>
@@ -767,7 +794,7 @@
               
   <section class='widget category'>
     
-<header class='pure'>
+<header class='material'>
   <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
   
     <a class="rightBtn"
@@ -781,7 +808,7 @@
   
 </header>
 
-    <div class='content pure'>
+    <div class='content material'>
       <ul class="entry">
         
           <li><a class="flat-box" title="/hblog/categories/algorithm/" href="/hblog/categories/algorithm/"><div class='name'>algorithm</div><div class='badge'>(2)</div></a></li>
