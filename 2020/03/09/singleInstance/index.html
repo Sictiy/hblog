@@ -352,7 +352,7 @@
       <a class='notlink'>
         <i class="fas fa-keyboard" aria-hidden="true"></i>
         <p>字数统计:</p>
-        <p>2.6k字</p>
+        <p>2.7k字</p>
       </a>
     </div>
     <div class="new-meta-item readtime">
@@ -465,8 +465,9 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HelloAnnotation</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestHello</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>编译后的.class 用idea打开：<br><img src="https://s2.ax1x.com/2020/03/09/8pj1Gd.png" alt="class"></p>
+<p>附：以上支持单例注解的实现源代码地址：<a href="https://github.com/Sictiy/JServer/tree/master/AnnotationProcessor" target="_blank" rel="noopener">github</a></p>
 <h2 id="lombok-idea-插件修改"><a href="#lombok-idea-插件修改" class="headerlink" title="lombok idea 插件修改"></a>lombok idea 插件修改</h2><p>到这里为止给类加上@SingleInstance注解，别的类就可以通过getInstance() 愉快地把他当单例使用了。但问题来了，编译后运行没是啥问题，但是编辑器不认啊，不仅一直先报错标红，而且方法调用的搜索，类Struct里面也找不到这个方法，自动补全什么的更是不可能有了。</p>
-<p>所有这部分的任务就是想办法让idea也能知道加注解的意思就是多了个getInstance()方法。这个功能显然需要使用idea插件开发来实现，之前在<a href="">这里</a>简单了解过一次。这里可以选择重头写一个，想一想这个工作量，emmm… 还好lombok是开源的，在别人的基础上改一改总比重头来简单。</p>
+<p>所有这部分的任务就是想办法让idea也能知道加注解的意思就是多了个getInstance()方法。这个功能显然需要使用idea插件开发来实现，之前在<a href="https://sictiy.github.io/hblog/2019/04/18/idea%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" target="_blank" rel="noopener">这里</a>简单了解过一次。这里可以选择重头写一个，想一想这个工作量，emmm… 还好lombok是开源的，在别人的基础上改一改总比重头来简单。</p>
 <ul>
 <li>lombok idea 插件github地址：<a href="https://github.com/mplushnikov/lombok-intellij-plugin" target="_blank" rel="noopener">lombok-intellij-plugin</a></li>
 <li>fork后修改支持@SingleInstance的源码地址: <a href="https://github.com/Sictiy/lombok-intellij-plugin" target="_blank" rel="noopener">lombok-intellij-plugin</a></li>
@@ -484,7 +485,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-09T20:49:14+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-09T20:59:44+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>updated at Mar 9, 2020</p>
@@ -556,6 +557,20 @@
       
       
           <div class="prev-next">
+              
+                  <section class="prev">
+                      <span class="art-item-left">
+                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous</h6>
+                          <h4>
+                              <a href="/hblog/2020/03/09/singleInstance-1/" rel="prev" title="singleInstance">
+                                
+                                    singleInstance
+                                
+                              </a>
+                          </h4>
+                          
+                      </span>
+                  </section>
               
               
                   <section class="next">

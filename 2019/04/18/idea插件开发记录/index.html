@@ -375,9 +375,12 @@
       <div class="article-entry" itemprop="articleBody">
         <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><hr>
 <ul>
-<li>下载<a href="https://github.com/JetBrains/intellij-community" target="_blank" rel="noopener">idea社区版</a></li>
-<li>配置jdk</li>
-<li>配置IntelliJ Platform Plugin Sdk<ul>
+<li><p>下载<a href="https://github.com/JetBrains/intellij-community" target="_blank" rel="noopener">idea社区版</a></p>
+</li>
+<li><p>配置jdk</p>
+</li>
+<li><p>配置IntelliJ Platform Plugin Sdk</p>
+<ul>
 <li>Project Structure-&gt;sdks:</li>
 <li>点击+，选择intellij…按提示继续，目录选择社区版安装路径就好</li>
 <li>导入idea源码：选择sourcePath-&gt;+.</li>
@@ -385,7 +388,8 @@
 </li>
 <li><p>创建简单工程</p>
 <ul>
-<li>create new project -&gt; intellij platform plugin</li>
+<li><p>create new project -&gt; intellij platform plugin</p>
+</li>
 <li><p>项目结构：</p>
 <blockquote>
 <p>plugin</p>
@@ -407,12 +411,14 @@
 </ul>
 <h2 id="插件入口"><a href="#插件入口" class="headerlink" title="插件入口"></a>插件入口</h2><hr>
 <ul>
-<li>插件入口即在idea上部分菜单栏加入一个按钮，点击按钮则运行插件</li>
+<li><p>插件入口即在idea上部分菜单栏加入一个按钮，点击按钮则运行插件</p>
+</li>
 <li><p>继承抽象类AnAction， 实现actionPerformed方法：</p>
   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAction</span> <span class="keyword">extends</span> <span class="title">AnAction</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="comment">// start方法，就类似于了平时的main方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">actionPerformed</span><span class="params">(@NotNull AnActionEvent e)</span> </span>&#123;</span><br><span class="line">        com.myPlugin.Main.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>配置plugin.xml</p>
   <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">action</span> <span class="attr">class</span>=<span class="string">"com.myPlugin.MyAction"</span> <span class="attr">text</span>=<span class="string">"myPlugin"</span> <span class="attr">id</span>=<span class="string">"myPlugin"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">add-to-group</span> <span class="attr">group-id</span>=<span class="string">"ToolsMenu"</span> <span class="attr">anchor</span>=<span class="string">"first"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">action</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- add-to-group 定义插件的入口放在菜单的哪个菜单项下面，anchor定义插入的位置--&gt;</span></span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
 <h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><hr>
@@ -422,11 +428,13 @@
 </li>
 <li><p>plugin.xml中配置：</p>
   <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">applicationService</span> <span class="attr">serviceInterface</span>=<span class="string">"com.myPlugin.MyState"</span> <span class="attr">serviceImplementation</span>=<span class="string">"com.myPlugin.MyState"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
 <h2 id="配置入口"><a href="#配置入口" class="headerlink" title="配置入口"></a>配置入口</h2><hr>
 <ul>
-<li>实现SearchableConfigurable即可在setting中增加一个配置界面，需要实现的方法有：<ul>
+<li><p>实现SearchableConfigurable即可在setting中增加一个配置界面，需要实现的方法有：</p>
+<ul>
 <li>createComponent(): 配置界面的ui，可以使用可使用工具编写</li>
 <li>isModified(): 影响界面中应用按钮是否可点击</li>
 <li>apply(): 点击应用按钮时调用</li>
@@ -434,6 +442,7 @@
 </li>
 <li><p>plugin.xml中配置：</p>
   <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">applicationConfigurable</span> <span class="attr">instance</span>=<span class="string">"com.myPlugin.MyConfigurable"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
 <h2 id="idea中swing可视化"><a href="#idea中swing可视化" class="headerlink" title="idea中swing可视化"></a>idea中swing可视化</h2><hr>

@@ -396,7 +396,8 @@
 </ul>
 <h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><hr>
 <ul>
-<li>基本结构<ul>
+<li><p>基本结构</p>
+<ul>
 <li>package 当前包</li>
 <li>import 导入包 (不允许循环导包，如a import b、b import a，设计包时需确定每个包的作用，包与包之间低耦合)</li>
 </ul>
@@ -411,9 +412,12 @@
 </li>
 <li><p>常量：const</p>
 </li>
-<li>数据结构初始化： make()</li>
-<li>可见性： 首字母大写pulic， 小写private</li>
-<li>指针与实例：与c++相似，但都通过点访问成员</li>
+<li><p>数据结构初始化： make()</p>
+</li>
+<li><p>可见性： 首字母大写pulic， 小写private</p>
+</li>
+<li><p>指针与实例：与c++相似，但都通过点访问成员</p>
+</li>
 </ul>
 </li>
 </ul>
@@ -426,6 +430,7 @@
 <li>结构体指针与数组指针转换：</li>
 </ul>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pBytes := (*[size]<span class="keyword">byte</span>)(unsafe.Pointer(&amp;myStruct))</span><br></pre></td></tr></table></figure>
+
 <h2 id="接口与类"><a href="#接口与类" class="headerlink" title="接口与类"></a>接口与类</h2><hr>
 <ul>
 <li><p>类与实例</p>
@@ -434,6 +439,7 @@
 <li>没有继承，只有组合，类似于继承：</li>
 </ul>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> extendStruct <span class="keyword">struct</span>&#123;</span><br><span class="line">    baseStruct</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>类方法需要修改类成员时，方法接收者需要是指针</li>
 </ul>
