@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>lombok简单使用，简单实现单例注解及修改lombokidea插件支持新增的单例注解 | SictiyLeon</title>
+  
+  
+
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+  
+  <meta name='theme-color' content='#FFFFFF'>
+  <meta name='msapplication-TileColor' content='#1BC3FB'>
+  <meta name='msapplication-config' content='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-favicon@19.9.6/browserconfig.xml'>
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+  
+  <link rel='shortcut icon' type='image/x-icon' href='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-favicon@19.9.6/favicon.ico'>
+  <link rel='icon' type='image/x-icon' sizes='32x32' href='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-favicon@19.9.6/favicon-32x32.png'>
+  <link rel='apple-touch-icon' type='image/png' sizes='180x180' href='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-favicon@19.9.6/apple-touch-icon.png'>
+  <link rel='mask-icon' color='#1BC3FB' href='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-favicon@19.9.6/safari-pinned-tab.svg'>
+  <link rel='manifest' href='https://cdn.jsdelivr.net/gh/xaoxuu/cdn-favicon@19.9.6/site.webmanifest'>
+  
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.11.26/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>SictiyLeon</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/hblog/"
+            
+            
+            id="hblog">
+            <i class='fas fa-rss fa-fw'></i>&nbsp;首页
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/hblog/categories/"
+            
+              rel="nofollow"
+            
+            
+            id="hblogcategories">
+            <i class='fas fa-code-branch fa-fw'></i>&nbsp;分类
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/hblog/archives/"
+            
+              rel="nofollow"
+            
+            
+            id="hblogarchives">
+            <i class='fas fa-link fa-fw'></i>&nbsp;归档
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/hblog/about/"
+            
+              rel="nofollow"
+            
+            
+            id="hblogabout">
+            <i class='fas fa-info-circle fa-fw'></i>&nbsp;关于
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header material">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="material"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/hblog/' >
+        
+          SictiyLeon
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/hblog/"
+                  
+                  
+                  id="hblog">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;首页
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/hblog/categories/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="hblogcategories">
+									<i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/hblog/archives/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="hblogarchives">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="Search" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/hblog/"
+                
+                
+                id="hblog">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;首页
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/hblog/categories/"
+                
+                  rel="nofollow"
+                
+                
+                id="hblogcategories">
+								<i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/hblog/archives/"
+                
+                  rel="nofollow"
+                
+                
+                id="hblogarchives">
+								<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/hblog/about/"
+                
+                  rel="nofollow"
+                
+                
+                id="hblogabout">
+								<i class='fas fa-info-circle fa-fw'></i>&nbsp;关于
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/hblog/2020/03/09/singleInstance/">
+        lombok简单使用，简单实现单例注解及修改lombokidea插件支持新增的单例注解
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    
+      <a href="https://www.sictiy.cn/hblog" rel="nofollow">
+        
+          <i class="fas fa-user" aria-hidden="true"></i>
+        
+        <p>sictiy xu</p>
+      </a>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2020-03-09</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/hblog/categories/java/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>java</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item wordcount">
+      <a class='notlink'>
+        <i class="fas fa-keyboard" aria-hidden="true"></i>
+        <p>字数统计:</p>
+        <p>2.6k字</p>
+      </a>
+    </div>
+    <div class="new-meta-item readtime">
+      <a class='notlink'>
+        <i class="fas fa-hourglass-half" aria-hidden="true"></i>
+        <p>阅读时长≈</p>
+        <p>11分</p>
+      </a>
+    </div>
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <p>之前写java代码，如果要增加一个拥有很多个属性的实体类时，每一个属性都需要写setter方法和getter方法，无疑是平白增加工作量，后来发现可以使用lombok库，通过在类前加注解省去这个费时的步骤。那这么好用的功能到底怎么实现的呢？同样使用场景很多的单例，是不是也可以用同样的原理实现呢？</p>
+<a id="more"></a>
+
+<h2 id="lombok"><a href="#lombok" class="headerlink" title="lombok"></a>lombok</h2><h3 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h3><hr>
+<p>这里放一个简单的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 等级</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* generated by tool</span></span><br><span class="line"><span class="comment">* <span class="doctag">@since</span>: 2019-12-16</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@Setter</span></span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="meta">@ToString</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JLevelInfo</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * </span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">long</span> id;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * </span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">long</span> userId;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * </span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">int</span> type;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * </span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">int</span> value;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * </span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">int</span> level;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以不需要手动或自动去写一堆的getter，setter，或是构造函数。具体的用法不多啰嗦，可以随便找一篇<a href="https://www.jianshu.com/p/2543c71a8e45" target="_blank" rel="noopener">文章</a>, 或者进入<a href="https://projectlombok.org/" target="_blank" rel="noopener">官网</a>查看。</p>
+<h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><hr>
+<p>可以猜测，这个lombok其实是在写完代码，到运行字节码中间的某一个时机，坐了某一个编译器编译之外的工作，将字节码变成了增加了代码后的字节码。</p>
+<p>通过一番搜索了解到：</p>
+<p>jdk5时引用注解的同时提供了两种解析方式：</p>
+<ul>
+<li>运行时解析</li>
+<li>编译时解析</li>
+</ul>
+<p>这里使用了编译时解析的<a href="https://jcp.org/en/jsr/detail?id=269" target="_blank" rel="noopener">JSP 269</a> Pluggable Annotation Processing API机制，javac 在执行时会调用实现了该api的程序，通过这个程序，我们就可以实现编译器之外的自定义功能。</p>
+<p>lombok 本质上就是这样一个程序，它触发生效的具体流程为：</p>
+<p>1.javac对源代码进行分析，生成了一棵抽象语法树（AST）<br>2.运行过程中调用实现了“JSR 269 API”的Lombok程序<br>3.此时Lombok就对第一步骤得到的AST进行处理，找到@Data注解所在类对应的语法树（AST），然后修改该语法树（AST），增加getter和setter方法定义的相应树节点<br>4.javac使用修改后的抽象语法树（AST）生成字节码文件，即给class增加新的节点（代码块）</p>
+<h2 id="实现单例注解"><a href="#实现单例注解" class="headerlink" title="实现单例注解"></a>实现单例注解</h2><h3 id="需要实现的目标"><a href="#需要实现的目标" class="headerlink" title="需要实现的目标"></a>需要实现的目标</h3><hr>
+<p>我们想要的注解处理后代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RpcComponent</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="keyword">private</span> ClassPathXmlApplicationContext context;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> RpcComponent <span class="title">getInstance</span><span class="params">()</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> RpcComponentHolder.instance;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">RpcComponentHolder</span></span></span><br><span class="line"><span class="class">  </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> RpcComponent instance = <span class="keyword">new</span> RpcComponent();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在编辑器里实际写的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SingleInstance</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RpcComponent</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> ClassPathXmlApplicationContext context;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="开始操作"><a href="#开始操作" class="headerlink" title="开始操作"></a>开始操作</h3><hr>
+<h4 id="HelloAnnotation-体验编译调用调试"><a href="#HelloAnnotation-体验编译调用调试" class="headerlink" title="HelloAnnotation 体验编译调用调试"></a>HelloAnnotation 体验编译调用调试</h4><p>创建注解类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.sictiy.processor.single;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.ElementType;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> sictiy.xu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 2019/10/11 15:17</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="meta">@Target</span>(ElementType.TYPE) <span class="comment">// 注解的使用范围，只能用于类</span></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.SOURCE) <span class="comment">// 指该注解只存在源代码范围内，编译后不存在</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> HelloAnnotation</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建编译器处理类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.google.auto.service.AutoService;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> sictiy.xu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 2020/03/09 11:11</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="meta">@SupportedAnnotationTypes</span>(<span class="string">"com.sictiy.processor.single.SingleInstance"</span>)</span><br><span class="line"><span class="meta">@SupportedSourceVersion</span>(SourceVersion.RELEASE_11)</span><br><span class="line"><span class="meta">@AutoService</span>(Processor.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloProcessor</span> <span class="keyword">extends</span> <span class="title">AbstractProcessor</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    Messager messager;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(ProcessingEnvironment processingEnv)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.init(processingEnv);</span><br><span class="line">        <span class="keyword">this</span>.messager = processingEnv.getMessager();     <span class="comment">//编译的时候用于输出</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">process</span><span class="params">(Set&lt;? extends TypeElement&gt; annotations, RoundEnvironment roundEnv)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Set&lt;? extends Element&gt; set = roundEnv.getElementsAnnotatedWith(HelloAnnotation.class);</span><br><span class="line">        set.forEach(element -&gt; &#123;</span><br><span class="line">            note(<span class="string">"hello world"</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//简单封装的函数</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">note</span><span class="params">(String message)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.messager.printMessage(Diagnostic.Kind.NOTE, message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>auto-service 需要添加maven依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.auto.service<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>auto-service<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-rc4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>使用maven编译打包 在jar里面可以看到这个文件：<br><img src="https://s2.ax1x.com/2020/03/09/8pXeAg.png" alt="processorJar"></p>
+<p>文件内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">com.sictiy.processor.single.HelloProcessor</span><br></pre></td></tr></table></figure>
+
+<p>创建另一个项目引用上面第一个项目，新建以下测试类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.sictiy.processor.single.HelloAnnotation;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> sictiy.xu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 2020/03/09 10:52</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"><span class="meta">@HelloAnnotation</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestHello</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在终端第二个项目下运行 <code>mvnDebug clean install</code></p>
+<p><img src="https://s2.ax1x.com/2020/03/09/8pj9VU.png" alt="mvnDebug"></p>
+<p>在idea中添加远程调试：</p>
+<p><img src="https://s2.ax1x.com/2020/03/09/8pjP54.png" alt="ideaRemote"></p>
+<p>在HelloProcessor中断点后启动调试就可以在idea中断到点了。</p>
+<h4 id="在HelloProcessor的基础上修改实现将空类处理成一个单例"><a href="#在HelloProcessor的基础上修改实现将空类处理成一个单例" class="headerlink" title="在HelloProcessor的基础上修改实现将空类处理成一个单例"></a>在HelloProcessor的基础上修改实现将空类处理成一个单例</h4><p>生成单例主要有下面四个步骤：</p>
+<p>1·获取注解对应的类的 AST 树<br>2.添加一个私有的无参数构造器<br>3.添加一个静态内联类，内联类里面要添加一个成员 instance 并完成初始化<br>4.添加一个成员函数，然后 instance</p>
+<h5 id="获取ast树"><a href="#获取ast树" class="headerlink" title="获取ast树"></a>获取ast树</h5><p>获取工具类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SupportedAnnotationTypes</span>(<span class="string">"com.sictiy.processor.single.HelloAnnotation"</span>)</span><br><span class="line"><span class="meta">@SupportedSourceVersion</span>(SourceVersion.RELEASE_11)</span><br><span class="line"><span class="meta">@AutoService</span>(Processor.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloProcessor</span> <span class="keyword">extends</span> <span class="title">AbstractProcessor</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    Messager messager;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> JavacTrees trees;</span><br><span class="line">    <span class="keyword">private</span> TreeMaker treeMaker;</span><br><span class="line">    <span class="keyword">private</span> Names names;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(ProcessingEnvironment processingEnv)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.init(processingEnv);</span><br><span class="line">        <span class="keyword">this</span>.messager = processingEnv.getMessager();     <span class="comment">//编译的时候用于输出</span></span><br><span class="line">        <span class="keyword">this</span>.trees = JavacTrees.instance(processingEnv); <span class="comment">//AST 树</span></span><br><span class="line">        Context context = ((JavacProcessingEnvironment) processingEnv).getContext();</span><br><span class="line">        <span class="keyword">this</span>.treeMaker = TreeMaker.instance(context);    <span class="comment">//封装了定义方法、变量、类等等的方法</span></span><br><span class="line">        <span class="keyword">this</span>.names = Names.instance(context);            <span class="comment">//用于创建标识符</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>获取带注解的类的语法树：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">process</span><span class="params">(Set&lt;? extends TypeElement&gt; annotations, RoundEnvironment roundEnv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 获取带注解的类的集合</span></span><br><span class="line">    Set&lt;? extends Element&gt; set = roundEnv.getElementsAnnotatedWith(HelloAnnotation.class);</span><br><span class="line">    set.forEach(element -&gt; &#123;</span><br><span class="line">        <span class="comment">//获取到对应的 AST 树</span></span><br><span class="line">        JCTree jcTree = trees.getTree(element);</span><br><span class="line">        note(<span class="string">"hello world"</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里有一个问题，在jdk11 版本中移除了bin下面的tools.jar工具包，不再需要手动添加tools.jar的依赖。但是如果直接使用tools包编译时会报错：<code>Error:(20,27) java: 程序包 com.sun.tools.javac.api 不可见</code></p>
+<p>解决方法是在pom.xml中加入：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.8.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">compilerArgs</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">arg</span>&gt;</span>--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED<span class="tag">&lt;/<span class="name">arg</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">arg</span>&gt;</span>--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED<span class="tag">&lt;/<span class="name">arg</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">arg</span>&gt;</span>--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED<span class="tag">&lt;/<span class="name">arg</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">arg</span>&gt;</span>--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED<span class="tag">&lt;/<span class="name">arg</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">arg</span>&gt;</span>--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED<span class="tag">&lt;/<span class="name">arg</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">compilerArgs</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="创建私有构造函数，移除原公共构造函数"><a href="#创建私有构造函数，移除原公共构造函数" class="headerlink" title="创建私有构造函数，移除原公共构造函数"></a>创建私有构造函数，移除原公共构造函数</h5><p>创建一个私有构造方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 描述 ，代表方法是私有的</span></span><br><span class="line">JCTree.JCModifiers modifiers = treeMaker.Modifiers(Flags.PRIVATE);</span><br><span class="line"><span class="comment">// 返回值</span></span><br><span class="line">JCTree.JCBlock block = treeMaker.Block(<span class="number">0L</span>, nil());</span><br><span class="line"><span class="comment">// 创建这个方法</span></span><br><span class="line">JCTree.JCMethodDecl constructor = treeMaker</span><br><span class="line">        .MethodDef(</span><br><span class="line">                modifiers,                   <span class="comment">//修饰符</span></span><br><span class="line">                names.fromString(<span class="string">"&lt;init&gt;"</span>),  <span class="comment">//函数名</span></span><br><span class="line">                <span class="keyword">null</span>,                        <span class="comment">//方法返回的类型</span></span><br><span class="line">                nil(),                       <span class="comment">//泛型参数</span></span><br><span class="line">                nil(),                       <span class="comment">//参数</span></span><br><span class="line">                nil(),                       <span class="comment">//throw</span></span><br><span class="line">                block,                       <span class="comment">//函数代码块，这里是空代码块</span></span><br><span class="line">                <span class="keyword">null</span>);                       <span class="comment">//默认值</span></span><br></pre></td></tr></table></figure>
+
+<p>判断方法是否为无参数，公共，且是构造函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断是否为构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isConstructor</span><span class="params">(JCTree.JCMethodDecl jcMethodDecl)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    String name = jcMethodDecl.name.toString();</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"&lt;init&gt;"</span>.equals(name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 判读方法无参数</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isNoArgsMethod</span><span class="params">(JCTree.JCMethodDecl jcMethodDecl)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    List&lt;JCTree.JCVariableDecl&gt; jcVariableDeclList = jcMethodDecl.getParameters();</span><br><span class="line">    <span class="keyword">return</span> jcVariableDeclList == <span class="keyword">null</span></span><br><span class="line">            || jcVariableDeclList.size() == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 判断方法是公共的</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isPublicMethod</span><span class="params">(JCTree.JCMethodDecl jcMethodDecl)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    JCTree.JCModifiers jcModifiers = jcMethodDecl.getModifiers();</span><br><span class="line">    Set&lt;Modifier&gt; modifiers = jcModifiers.getFlags();</span><br><span class="line">    <span class="keyword">return</span> modifiers.contains(Modifier.PUBLIC);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>移除原有的构造函数，添加新构造函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//去掉默认的构造函数</span></span><br><span class="line">ListBuffer&lt;JCTree&gt; out = <span class="keyword">new</span> ListBuffer&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (JCTree tree : singletonClass.defs)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (isPublicDefaultConstructor(tree))</span><br><span class="line">    &#123;<span class="comment">//是否公有无参数的构造函数</span></span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    out.add(tree);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// constructor 就是上面创建的私有构造方法</span></span><br><span class="line">out.add(constructor);</span><br><span class="line">singletonClass.defs = out.toList();</span><br></pre></td></tr></table></figure>
+
+<h5 id="创建内联类"><a href="#创建内联类" class="headerlink" title="创建内联类"></a>创建内联类</h5><p>分为三步走：<br>1.创建内联类<br>2.创建类型为单例类型的私有静态变量<br>3.将静态变量添加到内联类，将内联类添加到单例类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> JCTree.<span class="function">JCClassDecl <span class="title">createInnerClass</span><span class="params">(JCTree.JCClassDecl jcClassDecl)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 创建内联类</span></span><br><span class="line">    JCTree.JCClassDecl innerClass = treeMaker.ClassDef(</span><br><span class="line">            treeMaker.Modifiers(Flags.PRIVATE | Flags.STATIC),</span><br><span class="line">            names.fromString(jcClassDecl.name + <span class="string">"Holder"</span>),  <span class="comment">//类名</span></span><br><span class="line">            nil(),                                           <span class="comment">//泛型参数</span></span><br><span class="line">            <span class="keyword">null</span>,                                            <span class="comment">//extending</span></span><br><span class="line">            nil(),                                           <span class="comment">//implementing</span></span><br><span class="line">            nil()                                            <span class="comment">//类定义的详细语句，包括字段，方法定义等</span></span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 给内联类添加一个私有静态的单例的属性 instance</span></span><br><span class="line">    <span class="comment">// instance 的类型为原静态类</span></span><br><span class="line">    JCTree.JCIdent singletonClassType = treeMaker.Ident(jcClassDecl.name); <span class="comment">//获取注解的类型</span></span><br><span class="line">    <span class="comment">// instance 的赋值语句</span></span><br><span class="line">    JCTree.JCNewClass newKeyword = treeMaker.NewClass(<span class="keyword">null</span>,                 <span class="comment">//encl,enclosingExpression lambda 箭头吗？不太清楚</span></span><br><span class="line">            nil(),                <span class="comment">//参数类型列表</span></span><br><span class="line">            singletonClassType,   <span class="comment">//待创建对象的类型</span></span><br><span class="line">            nil(),                <span class="comment">//参数类型</span></span><br><span class="line">            <span class="keyword">null</span>);                <span class="comment">//类定义</span></span><br><span class="line">    <span class="comment">// instance 是私有，静态，final的</span></span><br><span class="line">    JCTree.JCModifiers fieldMod = treeMaker.Modifiers(Flags.PRIVATE | Flags.STATIC | Flags.FINAL);</span><br><span class="line">    <span class="comment">// 定义这个instance变量</span></span><br><span class="line">    JCTree.JCVariableDecl instanceVar = treeMaker.VarDef(</span><br><span class="line">            fieldMod,                                                        <span class="comment">//修饰符</span></span><br><span class="line">            names.fromString(<span class="string">"instance"</span>),                                    <span class="comment">//变量名</span></span><br><span class="line">            singletonClassType,                                              <span class="comment">//类型</span></span><br><span class="line">            newKeyword);                                                     <span class="comment">//赋值语句</span></span><br><span class="line">    <span class="comment">// 将instance 添加到内联函数中</span></span><br><span class="line">    innerClass.defs = innerClass.defs.prepend(instanceVar);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将内联类添加到原单例类中</span></span><br><span class="line">    jcClassDecl.defs = jcClassDecl.defs.append(innerClass);</span><br><span class="line">    <span class="keyword">return</span> innerClass;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="创建获取单例的getInstance方法"><a href="#创建获取单例的getInstance方法" class="headerlink" title="创建获取单例的getInstance方法"></a>创建获取单例的getInstance方法</h5><p>先看返回语句块怎么构建：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> JCTree.<span class="function">JCBlock <span class="title">createReturnBlock</span><span class="params">(JCTree.JCClassDecl innerClass)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 先拿到内联类的类型</span></span><br><span class="line">    JCTree.JCIdent holderInnerClassType = treeMaker.Ident(innerClass.name);</span><br><span class="line">    <span class="comment">// 再拿到内联类中的静态变量 这个静态变量就是需要返回的值instance</span></span><br><span class="line">    JCTree.JCFieldAccess instanceVarAccess = treeMaker.Select(holderInnerClassType, names.fromString(<span class="string">"instance"</span>));</span><br><span class="line">    <span class="comment">//创建 return 语句</span></span><br><span class="line">    JCTree.JCReturn returnValue = treeMaker.Return(instanceVarAccess);</span><br><span class="line"></span><br><span class="line">    ListBuffer&lt;JCTree.JCStatement&gt; statements = <span class="keyword">new</span> ListBuffer&lt;&gt;();</span><br><span class="line">    statements.append(returnValue);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> treeMaker.Block(<span class="number">0L</span>, statements.toList());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有了return语句以后就直接构造这个get方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">createReturnInstance</span><span class="params">(JCTree.JCClassDecl jcClassDecl, JCTree.JCClassDecl innerClass)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 方法是静态的公共的</span></span><br><span class="line">    JCTree.JCModifiers fieldMod = treeMaker.Modifiers(Flags.PUBLIC | Flags.STATIC);</span><br><span class="line">    <span class="comment">// 返回类型 是 单例类的类型</span></span><br><span class="line">    JCTree.JCIdent singletonClassType = treeMaker.Ident(jcClassDecl.name);</span><br><span class="line">    <span class="comment">// 构造return 语句块</span></span><br><span class="line">    JCTree.JCBlock body = createReturnBlock(innerClass);</span><br><span class="line">    <span class="comment">//创建方法</span></span><br><span class="line">    JCTree.JCMethodDecl methodDec = treeMaker.MethodDef(fieldMod,</span><br><span class="line">            <span class="keyword">this</span>.names.fromString(<span class="string">"getInstance"</span>),</span><br><span class="line">            singletonClassType, nil(), nil(), nil(), body, <span class="keyword">null</span>);</span><br><span class="line">    <span class="comment">// 将get方法添加的单例类中</span></span><br><span class="line">    jcClassDecl.defs = jcClassDecl.defs.prepend(methodDec);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="将四个步骤组合"><a href="#将四个步骤组合" class="headerlink" title="将四个步骤组合"></a>将四个步骤组合</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">process</span><span class="params">(Set&lt;? extends TypeElement&gt; annotations, RoundEnvironment roundEnv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> set = roundEnv.getElementsAnnotatedWith(HelloAnnotation.class);</span><br><span class="line">    set.forEach(element -&gt; &#123;</span><br><span class="line">        JCTree jcTree = trees.getTree(element);</span><br><span class="line">        jcTree.accept(<span class="keyword">new</span> TreeTranslator()</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitClassDef</span><span class="params">(JCTree.JCClassDecl jcClassDecl)</span></span></span><br><span class="line"><span class="function">            </span>&#123;</span><br><span class="line">                <span class="comment">// 修改构造方法</span></span><br><span class="line">                createPrivateConstructor(jcClassDecl);</span><br><span class="line">                <span class="comment">// 添加内联类</span></span><br><span class="line">                JCTree.JCClassDecl innerClass = createInnerClass(jcClassDecl);</span><br><span class="line">                <span class="comment">// 添加getInstance方法</span></span><br><span class="line">                createReturnInstance(jcClassDecl, innerClass);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h5><p>来个简单的示例来试试：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HelloAnnotation</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestHello</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译后的.class 用idea打开：<br><img src="https://s2.ax1x.com/2020/03/09/8pj1Gd.png" alt="class"></p>
+<h2 id="lombok-idea-插件修改"><a href="#lombok-idea-插件修改" class="headerlink" title="lombok idea 插件修改"></a>lombok idea 插件修改</h2><p>到这里为止给类加上@SingleInstance注解，别的类就可以通过getInstance() 愉快地把他当单例使用了。但问题来了，编译后运行没是啥问题，但是编辑器不认啊，不仅一直先报错标红，而且方法调用的搜索，类Struct里面也找不到这个方法，自动补全什么的更是不可能有了。</p>
+<p>所有这部分的任务就是想办法让idea也能知道加注解的意思就是多了个getInstance()方法。这个功能显然需要使用idea插件开发来实现，之前在<a href="">这里</a>简单了解过一次。这里可以选择重头写一个，想一想这个工作量，emmm… 还好lombok是开源的，在别人的基础上改一改总比重头来简单。</p>
+<ul>
+<li>lombok idea 插件github地址：<a href="https://github.com/mplushnikov/lombok-intellij-plugin" target="_blank" rel="noopener">lombok-intellij-plugin</a></li>
+<li>fork后修改支持@SingleInstance的源码地址: <a href="https://github.com/Sictiy/lombok-intellij-plugin" target="_blank" rel="noopener">lombok-intellij-plugin</a></li>
+</ul>
+<p>… 未完待续</p>
+
+      </div>
+      
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-09T20:49:14+08:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>updated at Mar 9, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/hblog/tags/idea/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>idea</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://www.sictiy.cn/hblog/2020/03/09/singleInstance/&title=lombok简单使用，简单实现单例注解及修改lombokidea插件支持新增的单例注解 | SictiyLeon&summary=之前写java代码，如果要增加一个拥有很多个属性的实体类时，每一个属性都需要写setter方法和getter方法，无疑是平白增加工作量，后来发现可以使用lombok库，通过在类前加注解省去这个费时的步骤。那这么好用的功能到底怎么实现的呢？同样使用场景很多的单例，是不是也可以用同样的原理实现呢？"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.sictiy.cn/hblog/2020/03/09/singleInstance/&title=lombok简单使用，简单实现单例注解及修改lombokidea插件支持新增的单例注解 | SictiyLeon&summary=之前写java代码，如果要增加一个拥有很多个属性的实体类时，每一个属性都需要写setter方法和getter方法，无疑是平白增加工作量，后来发现可以使用lombok库，通过在类前加注解省去这个费时的步骤。那这么好用的功能到底怎么实现的呢？同样使用场景很多的单例，是不是也可以用同样的原理实现呢？"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://www.sictiy.cn/hblog/2020/03/09/singleInstance/&title=lombok简单使用，简单实现单例注解及修改lombokidea插件支持新增的单例注解 | SictiyLeon&summary=之前写java代码，如果要增加一个拥有很多个属性的实体类时，每一个属性都需要写setter方法和getter方法，无疑是平白增加工作量，后来发现可以使用lombok库，通过在类前加注解省去这个费时的步骤。那这么好用的功能到底怎么实现的呢？同样使用场景很多的单例，是不是也可以用同样的原理实现呢？"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>Next&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/hblog/2020/03/08/webNotepad/" rel="prev" title="在线记事本折腾小记">
+                                  
+                                      在线记事本折腾小记
+                                  
+                              </a>
+                          </h4>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments">
+    <section class="article typo">
+      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;Comments</h4>
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'lombok简单使用，简单实现单例注解及修改lombokidea插件支持新增的单例注解',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+      
+        
+          
+          
+            
+              <section class='widget author'>
+  <div class='content material'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='https://s2.ax1x.com/2020/01/17/lxqAEV.jpg'/>
+      </div>
+    
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/hblog/xlm104600@gmail.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/Sictiy"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://music.163.com/#/user/home?id=98830575"
+              class="social fas fa-headphones-alt flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              <section class='widget grid'>
+  
+<header class='material'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content material'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/hblog/" href="/hblog/"
+          
+          
+          id="hblog">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/hblog/archives/" href="/hblog/archives/"
+          
+            rel="nofollow"
+          
+          
+          id="hblogarchives">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+        <li><a class="flat-box" title="/hblog/about/" href="/hblog/about/"
+          
+            rel="nofollow"
+          
+          
+          id="hblogabout">
+          
+            <i class="fas fa-info-circle fa-fw" aria-hidden="true"></i>
+          
+          关于小站
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#lombok"><span class="toc-text">lombok</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单使用"><span class="toc-text">简单使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现原理"><span class="toc-text">实现原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现单例注解"><span class="toc-text">实现单例注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#需要实现的目标"><span class="toc-text">需要实现的目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开始操作"><span class="toc-text">开始操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HelloAnnotation-体验编译调用调试"><span class="toc-text">HelloAnnotation 体验编译调用调试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在HelloProcessor的基础上修改实现将空类处理成一个单例"><span class="toc-text">在HelloProcessor的基础上修改实现将空类处理成一个单例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#获取ast树"><span class="toc-text">获取ast树</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#创建私有构造函数，移除原公共构造函数"><span class="toc-text">创建私有构造函数，移除原公共构造函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#创建内联类"><span class="toc-text">创建内联类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#创建获取单例的getInstance方法"><span class="toc-text">创建获取单例的getInstance方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#将四个步骤组合"><span class="toc-text">将四个步骤组合</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#结果"><span class="toc-text">结果</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lombok-idea-插件修改"><span class="toc-text">lombok idea 插件修改</span></a></li></ol>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget category'>
+    
+<header class='material'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/hblog/categories/"
+    title="categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/hblog/categories/algorithm/" href="/hblog/categories/algorithm/"><div class='name'>algorithm</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/hblog/categories/c/" href="/hblog/categories/c/"><div class='name'>c++</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/hblog/categories/go/" href="/hblog/categories/go/"><div class='name'>go</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/hblog/categories/java/" href="/hblog/categories/java/"><div class='name'>java</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/hblog/categories/server/" href="/hblog/categories/server/"><div class='name'>server</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/hblog/categories/%E6%B5%8B%E8%AF%95/" href="/hblog/categories/%E6%B5%8B%E8%AF%95/"><div class='name'>测试</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/hblog/categories/%E9%85%8D%E7%BD%AE/" href="/hblog/categories/%E9%85%8D%E7%BD%AE/"><div class='name'>配置</div><div class='badge'>(1)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/hblog/xlm104600@gmail.com"
+            class="social fas fa-envelope flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/Sictiy"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://music.163.com/#/user/home?id=98830575"
+            class="social fas fa-headphones-alt flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+  <div>
+    Use
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    as theme
+    
+      , 
+      total visits
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      times
+    
+    . 
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/hblog/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+  <!-- fastclick -->
+  <script src="https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      FastClick.attach(document.body)
+    }, false)
+  </script>
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('') {
+          $('').backstretch(
+          ["https://img.vim-cn.com/29/91197b04c13f512f734a76d4ac422d89dbe229.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.vim-cn.com/29/91197b04c13f512f734a76d4ac422d89dbe229.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+    
+      
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/volantis@1.0.6/js/volantis.min.js"></script>
+
+    
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "DOrDaqtmOYARAQcfWKvJLWHi-MdYXbMMI",
+    appKey: "8987UCDFR7NQIATt7ja3iojv",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'mp',
+    lang:'zh-cn',
+    highlight:'true'
+  })
+  </script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.11/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.11/js/search.js"></script>
+
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "Copied";
+  let COPY_FAILURE = "Copy failed";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>Copy</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

@@ -383,6 +383,7 @@
       <div class="article-entry" itemprop="articleBody">
         <p>每次在微信公众号里面看到某个链接想要用电脑打开的时候，总是需要先在电脑登录微信，然后把链接用微信的文件传输助手发送给自己。次数多了总觉得麻烦，于是想找一找有没有一种方便的可以直接通过浏览器直接同步的方式。</p>
 <a id="more"></a>
+
 <h2 id="notepa-cc"><a href="#notepa-cc" class="headerlink" title="notepa.cc"></a>notepa.cc</h2><h3 id="简化版"><a href="#简化版" class="headerlink" title="简化版"></a>简化版</h3><hr>
 <p>一番搜索后找到了这个简化版的在线记事本网站，在手机上输入网址后分配了一个后缀，将信息输入后，再电脑上打开同样带后缀的网址，看到的信息同手机上一样，复制粘贴，很ok。地址如下：</p>
 <ul>
@@ -392,8 +393,7 @@
 <p>简化版直接根据github上面给的说明，将代码clone到nginx的目录下面，修改nginx的配置即可，非常简单。nginx的配置如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">location ~* \.php$ &#123;</span><br><span class="line">    fastcgi_index   index.php;</span><br><span class="line">    fastcgi_pass    127.0.0.1:9000;</span><br><span class="line">    include         fastcgi_params;</span><br><span class="line">    fastcgi_param   SCRIPT_FILENAME    $document_root$fastcgi_script_name;</span><br><span class="line">    fastcgi_param   SCRIPT_NAME        $fastcgi_script_name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># notes目录进入主页，生成随机码</span><br><span class="line">location &#x2F;notes &#123;</span><br><span class="line">    index index.php;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 带随机码的将随机码带入参数</span><br><span class="line">location ~* ^&#x2F;notes&#x2F;([a-zA-Z0-9_-]+)$ &#123;</span><br><span class="line">    try_files $uri &#x2F;notes&#x2F;index.php?note&#x3D;$1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="原版"><a href="#原版" class="headerlink" title="原版"></a>原版</h3><hr>
-<p>在找到这个网址的帖子里有很多小伙伴都在自己的服务器上部署了，一一点进去方向都一样的，大家都说部署很简单，进github一看就知道，确实简单。但是在最后有一个哥们提问有没有可以实时同步的，不需要手机端编辑后，电脑端需要手动刷新才能看到最新的内容。并贴出了notepad.cc的github地址，说跟这种类似的，但需要文档完备。这个文档太简单，部署麻烦。于是我就进去clone了一份下来，尝试在自己vps上部署，确实很麻烦，一番操作后终于可以顺利通过域名进入主页了，但是同步好像还是有点问题，可能某个nodejs插件没有安装好。最终放弃…</p>
+<h3 id="原版"><a href="#原版" class="headerlink" title="原版"></a>原版</h3><p>在找到这个网址的帖子里有很多小伙伴都在自己的服务器上部署了，一一点进去方向都一样的，大家都说部署很简单，进github一看就知道，确实简单。但是在最后有一个哥们提问有没有可以实时同步的，不需要手机端编辑后，电脑端需要手动刷新才能看到最新的内容。并贴出了notepad.cc的github地址，说跟这种类似的，但需要文档完备。这个文档太简单，部署麻烦。于是我就进去clone了一份下来，尝试在自己vps上部署，确实很麻烦，一番操作后终于可以顺利通过域名进入主页了，但是同步好像还是有点问题，可能某个nodejs插件没有安装好。最终放弃…</p>
 <h2 id="使用WebSocket-editor-md实现实时同步-markdown文档编辑。"><a href="#使用WebSocket-editor-md实现实时同步-markdown文档编辑。" class="headerlink" title="使用WebSocket+editor.md实现实时同步+markdown文档编辑。"></a>使用WebSocket+editor.md实现实时同步+markdown文档编辑。</h2><hr>
 <h3 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h3><hr>
 <p>随意一搜就可以出现一大堆类似的简单示例，例如：<a href="https://www.cnblogs.com/xdp-gacl/p/5193279.html" target="_blank" rel="noopener" title="websocket">参考链接</a>， 客户端js通过ws协议的链接new一个websocket实例就可以通过这个实例与服务器进行数据交互，服务器通过注解的方式，处理客户端的连接消息的接收回调等，参考文档里可下载示例直接编译运行。</p>
@@ -454,7 +454,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-08T15:38:31+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-08T16:23:49+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>updated at Mar 8, 2020</p>
@@ -523,6 +523,25 @@
       
       
           <div class="prev-next">
+              
+                  <section class="prev">
+                      <span class="art-item-left">
+                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;Previous</h6>
+                          <h4>
+                              <a href="/hblog/2020/03/09/singleInstance/" rel="prev" title="lombok简单使用，简单实现单例注解及修改lombokidea插件支持新增的单例注解">
+                                
+                                    lombok简单使用，简单实现单例注解及修改lombokidea插件支持新增的单例注解
+                                
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/hblog/tags/idea/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> idea</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
               
               
                   <section class="next">
@@ -811,7 +830,7 @@
         
           <li><a class="flat-box" title="/hblog/categories/go/" href="/hblog/categories/go/"><div class='name'>go</div><div class='badge'>(1)</div></a></li>
         
-          <li><a class="flat-box" title="/hblog/categories/java/" href="/hblog/categories/java/"><div class='name'>java</div><div class='badge'>(3)</div></a></li>
+          <li><a class="flat-box" title="/hblog/categories/java/" href="/hblog/categories/java/"><div class='name'>java</div><div class='badge'>(4)</div></a></li>
         
           <li><a class="flat-box" title="/hblog/categories/server/" href="/hblog/categories/server/"><div class='name'>server</div><div class='badge'>(2)</div></a></li>
         
